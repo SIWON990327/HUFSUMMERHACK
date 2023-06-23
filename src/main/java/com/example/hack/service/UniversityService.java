@@ -40,16 +40,17 @@ public class UniversityService {
         universityRepository.deleteById(univid);
     }
 
-    public UniversityService updateUniversity(UniversityService updateUniversity) {
+    public University updateUniversity(University updateUniversity) {
         return universityRepository.save(updateUniversity);
     }
 
     public void addRestaurantToUniversity(Long univid, Restaurant restaurant) {
-        UniversityService university = getUniversityById(univid);
-        university.getRestaurant().add(restaurant);
-        restaurant.setUniversity(university);
-        universityRepository.save(university);
-    }
+        University university = universityRepository.findById(univid).orElse(null);
+        if (university != null) {
+            university.getRestaurants().add(restaurant);
+            restaurant.setUniversity(university);
+            universityRepository.save(university);
+        }
 
 
 
