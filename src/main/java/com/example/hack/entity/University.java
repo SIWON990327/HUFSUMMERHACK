@@ -3,12 +3,9 @@ package com.example.hack.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Setter
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class University {
 
     @Id
@@ -24,7 +21,7 @@ public class University {
     @Column(nullable = false)
     private double longitude;
 
-    @OneToMany(mappedBy = 'university', cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
     private List<Restaurant> restaurant;
 
 
