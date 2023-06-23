@@ -22,6 +22,10 @@ public class Restaurant {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Menu> menu;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getRestaurant_id(){
         return id;
     }

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -104,17 +105,17 @@ public class NaverMapApiClient {
         }
     }
     public List<Restaurant> getRestaurantsWithinDistance(double latitude, double longitude) {
-        String apiUrl = KAKAO_RESTAURANT_API_URL + "&x=" + longitude + "&y=" + latitude + "&radius=1000";
+        String apiUrl = KAKAO_RESTAURANT_API_URL + "&x=" + Double.toString(longitude) + "&y=" + Double.toString(latitude) + "&radius=1000";
 
         String authorization = "8880af3b5d00399f6fd20319d18638b2";
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "KakaoAK " + authorization);
 
-// Create request entity with headers
+        // Create request entity with headers
         RequestEntity<?> requestEntity = RequestEntity.get(URI.create(apiUrl)).headers(headers).build();
 
-// Send request and retrieve response
+        // Send request and retrieve response
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         String response = responseEntity.getBody();
 
@@ -123,11 +124,28 @@ public class NaverMapApiClient {
         if (jsonElement.isJsonObject()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonArray documents = jsonObject.getAsJsonArray("documents");
-            Type restaurantListType = new TypeToken<List<Restaurant>>() {}.getType();
-            List<Restaurant> restaurants = gson.fromJson(documents, restaurantListType);
+
+            List<Restaurant> restaurants = new ArrayList<>();
+            for (JsonElement element : documents) {
+                JsonObject document = element.getAsJsonObject();
+                Long restaurant_id = document.get("id").getAsLong();
+                String restaurantName = document.get("place_name").getAsString();
+                double restaurantLatitude = document.get("y").getAsDouble();
+                double restaurantLongitude = document.get("x").getAsDouble();
+
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(restaurant_id);
+                restaurant.setName(restaurantName);
+                restaurant.setLatitude(restaurantLatitude);
+                restaurant.setLongitude(restaurantLongitude);
+
+                restaurants.add(restaurant);
+            }
+
             return restaurants;
         }
+
         return null;
-        }
+    }
     }
 
