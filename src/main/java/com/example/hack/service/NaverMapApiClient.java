@@ -14,12 +14,13 @@ import java.util.List;
 
 @Service
 public class NaverMapApiClient {
-    private static final String NAVER_MAP_API_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
+    private static final String NAVER_MAP_API_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode=";
     private static final String NAVER_RESTAURANT_API_URL = "https://naverapis.com/maps/places/restaurant?query=";
     private final RestaurantRepository restaurantRepository;
     public NaverMapApiClient(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
+
     private void updateUniversityLocationAndRestaurants(University university, Restaurant restaurant) {
         // 대학 위치 업데이트
         updateUniversityLocation(university);

@@ -19,13 +19,26 @@ public class UniversityService {
         this.naverMapApiClient = naverMapApiClient;
     }
 
+    private void updateUniversityLocation(University university) {
+        String universityName = university.getUnivname();
+        // NaverMapApiClient를 통해 대학의 위치 정보를 가져옵니다
+        double[] location = naverMapApiClient.getUniversityLocation(universityName);
+        if (location != null && location.length == 2) {
+            double latitude = location[0];
+            double longitude = location[1];
+            university.setLatitude(latitude);
+            university.setLongitude(longitude);
+        } else {
+            throw new RuntimeException("Failed to retrieve university location");
+        }
+    }
     public University createUniversity(String name, double latitude, double longitude) {
         University university = new University();
         university.setUnivname(name);
         university.setLatitude(latitude);
         university.setLongitude(longitude);
-
-
+        // 대학 위치 업데이트
+        updateUniversityLocation(university);
         return universityRepository.save(university);
     }
 
