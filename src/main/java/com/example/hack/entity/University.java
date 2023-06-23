@@ -16,6 +16,9 @@ public class University {
     private String univname;
 
     @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
     private double latitude;
 
     @Column(nullable = false)
@@ -31,8 +34,6 @@ public class University {
     public void setUnivname(String univname){
         this.univname = univname;
     }
-
-
 
     public double getLatitude() {
         return latitude;
@@ -50,4 +51,11 @@ public class University {
         this.longitude = longitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
