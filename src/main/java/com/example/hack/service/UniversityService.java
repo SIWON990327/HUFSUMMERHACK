@@ -36,9 +36,9 @@ public class UniversityService {
         return universityRepository.save(university);
     }
 
-    public University getUniversityByName(String univname) {
-        return universityRepository.findByUnivname(univname)
-                .orElseThrow(() -> new RuntimeException("University not found"));
+    public University getUniversityByName(String universityName) {
+        Optional<University> universityOptional = universityRepository.findByUnivname(universityName);
+        return universityOptional.orElseThrow(() -> new RuntimeException("University not found"));
     }
 
     public void deleteUniversityByName(String univname) {
