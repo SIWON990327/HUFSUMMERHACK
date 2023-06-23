@@ -2,6 +2,8 @@ package com.example.hack.entity;
 
 import jakarta.persistence.*;
 
+@Entity
+
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,7 +13,7 @@ public class Menu {
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private int price;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -29,11 +31,11 @@ public class Menu {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

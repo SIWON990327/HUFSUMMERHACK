@@ -24,5 +24,30 @@ public class University {
     @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
     private List<Restaurant> restaurant;
 
+    public String getUnivname() {
+        return univname;
+    }
+
+    public void setUnivname(String univname){
+        this.univname = univname;
+    }
+
+
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
 }

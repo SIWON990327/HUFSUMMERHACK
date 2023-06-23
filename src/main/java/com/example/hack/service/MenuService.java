@@ -11,13 +11,25 @@ import java.util.List;
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
+    private final NaverMapApiClient naverMapApiClient;
 
     @Autowired
-    public MenuService(MenuRepository menuRepository) {
+    public MenuService(MenuRepository menuRepository, NaverMapApiClient naverMapApiClient) {
         this.menuRepository = menuRepository;
+        this.naverMapApiClient = naverMapApiClient;
+    }
+
+    public Menu createMenu(String name, int price, Restaurant restaurant) {
+        Menu menu = new Menu();
+        menu.setName(name);
+        menu.setPrice(price);
+        menu.setRestaurant(restaurant);
+
+        return menuRepository.save(menu);
     }
 
     public List<Menu> getMenuListByRestaurant(Restaurant restaurant) {
-        return menuRepository.findByRestaurant(restaurant);
+        List<Menu> menuList = menuRepository.findByRestaurant(restaurant);
+        return menuList;
     }
 }

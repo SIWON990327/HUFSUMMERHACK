@@ -6,40 +6,28 @@ import com.example.hack.repository.UniversityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UniversityService {
     private final UniversityRepository universityRepository;
-    private final NaverMapService naverMapService;
+    private final NaverMapApiClient naverMapApiClient;
 
     @Autowired
-    public UniversityService(UniversityRepository universityRepository, NaverMapService naverMapService) {
+    public UniversityService(UniversityRepository universityRepository, NaverMapApiClient naverMapApiClient) {
         this.universityRepository = universityRepository;
-        this.naverMapService = naverMapService;
+        this.naverMapApiClient = naverMapApiClient;
     }
 
     public University createUniversity(String name, double latitude, double longitude) {
         University university = new University();
-        university.setName(name);
+        university.setUnivname(name);
         university.setLatitude(latitude);
         university.setLongitude(longitude);
 
-        naverMapService.saveRestaurantsWithinRadius(university);
 
         return universityRepository.save(university);
     }
-    private static class UniversityApiResponse {
-        private String latitude;
-        private String longitude;
-
-        public String getLatitude() {
-            return latitude;
-        }
-
-        public String getLongitude() {
-            return longitude;
-        }
-    }
-
 
     public University getUniversityByName(String univname) {
         return universityRepository.findByUnivname(univname)
@@ -47,7 +35,11 @@ public class UniversityService {
     }
 
     public void deleteUniversityByName(String univname) {
-        universityRepository.deleteByName();
+        Optional<University> universityOptional = universityRepository.findByUnivname(univname);
+        if(universityOptional.isPresent()){
+            University university = universityOptional.get();
+            universityRepository.delete(university);
+        }
     }
 
     public University updateUniversity(University updateUniversity) {
