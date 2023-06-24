@@ -9,11 +9,11 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private double longitude;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private double latitude;
     @ManyToOne
     @JoinColumn(name = "menu_id")

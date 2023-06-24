@@ -28,7 +28,6 @@ public class RestaurantService {
         restaurant.setName(name);
         restaurant.setLatitude(latitude);
         restaurant.setLongitude(longitude);
-
         return restaurantRepository.save(restaurant);
     }
 

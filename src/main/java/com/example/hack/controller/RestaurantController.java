@@ -34,6 +34,9 @@ public class RestaurantController {
     public ResponseEntity<List<Restaurant>> getNearbyRestaurants(@RequestParam String universityName) {
         University university = universityService.getUniversityByName(universityName);
         List<Restaurant> nearbyRestaurants = restaurantService.getNearbyRestaurants(university);
+        for (Restaurant restaurant : nearbyRestaurants) {
+            restaurantService.createRestaurant(restaurant.getName(), restaurant.getLatitude(), restaurant.getLongitude());
+        }
         return ResponseEntity.ok(nearbyRestaurants);
     }
 
